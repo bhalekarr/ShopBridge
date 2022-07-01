@@ -1,0 +1,81 @@
+﻿@using ShopBridge.ViewModels
+@model AddProductViewModel
+@*@inject SignInManager<IdentityUser> signInManager;
+@inject RoleManager<IdentityRole> roleManager;*@
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <form asp-action="Create" asp-controller="Product" method="post" class="mt-auto" enctype="multipart/form-data">
+            &nbsp;
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h5 class="panel-title text-center">
+                        Add Product
+                    </h5>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label asp-for="ProductCode" class="control-label"></label>
+                            <input asp-for="ProductCode" class="form-control" value="@ViewData["ProductCode"]" readonly tabindex="1"/>
+                            <span asp-validation-for="ProductCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Date" class="control-label"></label>
+                            <input asp-for="Date" class="form-control" autofocus tabindex="2" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label asp-for="ProductName" class="control-label"></label>
+                            <input asp-for="ProductName" class="form-control" tabindex="3" />
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="ProductDescription" class="control-label"></label>
+                            <input asp-for="ProductDescription" class="form-control" tabindex="4" />
+                            <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Qty" class="control-label"></label>
+                            <input asp-for="Qty" class="form-control" tabindex="5" />
+                            <span asp-validation-for="Qty" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Price" class="control-label"></label>
+                            <input asp-for="Price" class="form-control" tabindex="6" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Amount" class="control-label"></label>
+                            <input asp-for="Amount" class="form-control" readonly tabindex="7" />
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label asp-for="Narration" class="control-label"></label>
+                            <input asp-for="Narration" class="form-control" tabindex="8" />
+                            <span asp-validation-for="Narration" class="text-danger"></span>
+                        </div>
+                        <div class="form-group row hidden">
+                            <input asp-for="Username" class="form-control" hidden tabindex="9"/>
+                        </div>
+                    </div>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="panel-footer">
+                    <div class="form-group d-flex justify-content-between">
+                        <input type="submit" value="Save" title="Save" class="btn btn-success" tabindex="10" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+

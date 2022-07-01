@@ -1,0 +1,148 @@
+﻿@using ShopBridge.Models
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "All Products";
+}
+
+<br />
+<div class="container-fluid">
+    @if (Model.Any())
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-primary">New Product</a>
+        </p>
+        <div>
+            <div>
+                <table class="display table-hover table-bordered" cellspacing="0" style="width:100%" id="listProduct">
+                    <thead class="clearfix" style="font-size:small">
+                        <tr>
+                            <th hidden="hidden">ID</th>
+                            <th>Date</th>
+                            <th>Product Code</th>
+                            <th>Product Name</th>
+                            <th>Desciption</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Amount</th>
+                            <th>Narration</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td hidden="hidden">@item.ProductId</td>
+                            <td><p>@item.ProductDate.Value.ToShortDateString()</p></td>
+                            <td><p>@item.ProductCode</p></td>
+                            <td><p>@item.ProductName</p></td>
+                            <td><p>@item.ProductDescription</p></td>
+                            <td class="text-right"><p>@item.Qty</p></td>
+                            <td class="text-right">
+                                <p><span>₹ </span>@item.Price</p>
+                            </td>
+                            <td class="text-right">
+                                <p><span>₹ </span>@item.Amount</p>
+                            </td>
+                            <td><p>@item.NarrationRemarks</p></td>
+                            <td>
+                                @*View Button*@
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId" title="Details" class="btn btn-success btn-sm">Details</a>
+                                @*Edit Button*@
+                                <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId" title="Edit" class="btn btn-info btn-sm">Edit</a>
+                                @*Delete Button*@
+                                <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.ProductId" title="Delete" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <b>Total Products till @String.Format("{0: dddd, MMMM d, yyyy}", DateTime.Now) :</b>
+                <span class="label label-primary">@Model.Count()</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                No Product Added yet
+            </div>
+            <div class="panel-body">
+                <h5 class="panel-title">
+                    Use the below button to Add a Product
+                </h5>
+                <a class="btn btn-primary" asp-controller="Product" asp-action="Create">
+                    New Product
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="~/datatables.net/jquery.dataTables.min.js"></script>
+    <script src="~/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/datatables-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/datatables-responsive/dataTables.responsive.min.js"></script>
+    <script src="~/datatables.net-editor/dataTables.editor.min.js"></script>
+    <script src="~/semantic-ui/semantic.min.js"></script>
+    <script src="~/pdfmake/pdfmake.min.js"></script>
+    <script src="~/pdfmake/vfs_fonts.min.js"></script>
+    <script src="~/jszip/jszip.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var t = $('#listProduct').DataTable({
+                "columnDefs": [{
+                    "searchable": true,
+                    "orderable": true,
+                    "targets": 1,
+                    "autoWidth": true,
+                    "scrollY": true,
+                    "scrollX": true,
+                }],
+                "processing": true,
+                "order": [[1, 'asc']],
+                "text": 'Export',
+                "buttons": [
+                    {
+                        "extend": 'copy', "messageTop": '', "exportOptions": { columns: [1, 2, 3, 4, 5, 6, 7, 8] }
+                    },
+                    {
+                        "extend": 'print', "messageTop": '', "exportOptions": { columns: [1, 2, 3, 4, 5, 6, 7, 8] }
+                    },
+                    {
+                        "extend": 'csv', "messageTop": '', "exportOptions": { columns: [1, 2, 3, 4, 5, 6, 7, 8] }
+                    },
+                    {
+                        "extend": 'excel', "messageTop": '', "exportOptions": { columns: [1, 2, 3, 4, 5, 6, 7, 8] }
+                    },
+                    {
+                        "extend": 'pdf', "messageTop": '', "exportOptions": { columns: [1, 2, 3, 4, 5, 6, 7, 8] }
+                    },
+                    'pageLength'
+                ],
+                "lengthMenu": [
+                    [10, 25, 50, -1],
+                    ['10 Records', '25 Records', '50 Records', 'Show All']
+                ],
+                "dom": 'Bfrtip'
+            });
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        });
+    </script>}
+

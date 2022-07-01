@@ -1,0 +1,102 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IdentityUser>
+@{
+    ViewData["Title"] = "List of All Users";
+}
+
+<h2>List of All Users</h2>
+
+@if (Model.Any())
+{
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Add New User</a>
+    <hr />
+    <div>
+        <div>
+            <table class="table table-hover table-responsive table-bordered table-condensed" id="listUsers">
+                <thead>
+                    <tr>
+                        <td><b>Sr No</b></td>
+                        <td><b>User ID</b></td>
+                        <td><b>UserName</b></td>
+                        <td><b>Email</b></td>
+                        @*<td><b>Role</b></td>*@
+                        <td><b>Action</b></td>
+                    </tr>
+                </thead>
+                @{ int srNo = 0;}
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@(srNo += 1)</td>
+                        <td>@user.Id</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        @*<td>@user.Role</td>*@
+                        <td>
+                            <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
+                                <a asp-action="EditUser" asp-controller="Role" asp-route-id="@user.Id" class="btn btn-info">Edit</a>
+
+                                @*browser delete confirmation*@
+                                @*<button type="submit" onclick="return confirm ('Are you sure to delete the user : @user.UserName')" class="btn btn-danger">Delete</button>*@
+
+                                @*popup/JS delete window for the site*@
+                                <span id="confirmDeleteSpan_@user.Id" style="display:none">
+                                    <span>Are you sure to delete the user ? </span>
+                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                    <a href="#" class="btn btn-success" onclick="confirmDelete('@user.Id', false)">No</a>
+                                </span>
+                                <span id="deleteSpan_@user.Id">
+                                    <a href="#" class="btn btn-danger" onclick="confirmDelete('@user.Id', true)">Delete</a>
+                                </span>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div>
+            <b>Total Users till @String.Format("{0: dddd, MMMM d, yyyy}", DateTime.Now) :</b>
+            <span class="label label-primary">@Model.Count()</span>
+        </div>
+    </div>
+}
+else
+{
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            No users created yet
+        </div>
+        <div class="panel-body">
+            <h5>Use the button below to create a user</h5>
+        </div>
+        <div class="panel-footer">
+            <a asp-action="Register" asp-controller="Home" class="btn btn-primary">Add New User</a>
+        </div>
+    </div>
+}
+
+
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var t = $('#listUsers').DataTable({
+                "columnDefs": [{
+                    "searchable": true,
+                    "orderable": true,
+                    "targets": 0
+                }],
+                "order": [[1, 'asc']]
+            });
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        });
+    </script>
+
+    <script src="~/js/CustomScript.js"></script>
+
+}

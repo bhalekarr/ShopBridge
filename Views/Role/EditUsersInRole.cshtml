@@ -1,0 +1,32 @@
+﻿@model List<ShopBridge.ViewModels.UserRoleViewModel>
+@{
+    //ViewData["Title"] = "EditUsersInRole";
+    var roleId = ViewBag.roleId;
+}
+
+<h1>EditUsersInRole</h1>
+
+<form method="post">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2>Add or Remove users from this role</h2>
+        </div>
+        <div class="panel-body">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div>
+                    <input type="hidden" asp-for="@Model[i].UserId" />
+                    <input type="hidden" asp-for="@Model[i].UserName" />
+                    <input asp-for="@Model[i].IsSelected" class="glyphicon-check" />
+                    <label class="control-label" asp-for="@Model[i].IsSelected">
+                        @Model[i].UserName
+                    </label>
+                </div>
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Update" class="btn btn-success" />
+            <a asp-action="EditRole" asp-route-id="@roleId" class="btn btn-warning">Back</a>
+        </div>
+    </div>
+</form>

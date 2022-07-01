@@ -1,0 +1,47 @@
+﻿@using ShopBridge.ViewModels
+@model DetailsProductViewModel
+
+@{
+        ViewData["Title"] = "Product Details";
+}
+
+<br />
+<div>
+    <div hidden>
+        <p><strong>Id :</strong> @Model.Products.ProductId</p>
+    </div>
+    <div>
+        <p><strong>Product Code :</strong> @Model.Products.ProductCode</p>
+    </div>
+    <div>
+        <p><strong>Product Date :</strong> @Model.Products.ProductDate.Value.ToShortDateString()</p>
+    </div>
+    <div>
+            <p><strong>Product Name :</strong> @Model.Products.ProductName</p>
+        </div>
+        <div>
+            <p><strong>Product Description :</strong> @Model.Products.ProductDescription</p>
+        </div>
+    <div>
+        <p><strong>Product Qty :</strong> @Model.Products.Qty</p>
+    </div>
+    <div>
+        <p>
+            <strong>Product Price :</strong> @Model.Products.Price
+        </p>
+    </div>
+    <div>
+        <p>
+            <strong>Product Amount :</strong> @Model.Products.Amount
+        </p>
+    </div>
+    <div>
+        <p><strong>Remarks :</strong> @Model.Products.NarrationRemarks</p>
+    </div>
+    <div>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-info">Back to List</a>
+        <a asp-controller="Product" asp-action="Create" class="btn btn-success">Add Product</a>
+        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Products.ProductId" class="btn btn-warning m-1">Edit</a>
+        <a asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Products.ProductId" class="btn btn-danger m-1">Delete</a>
+    </div>
+</div>

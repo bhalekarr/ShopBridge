@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IdentityRole>
+@{
+    ViewData["Title"] = "All Roles";
+}
+
+<h2>Roles and Users</h2>
+<div>
+    <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Role">Add a New Role</a>
+    <a class="btn btn-primary" asp-action="ListRoles" asp-controller="Role">View Roles</a>
+    <a class="btn btn-primary" asp-action="EditRoles" asp-controller="Role">Edit Roles</a>
+    <a class="btn btn-primary" asp-action="Register" asp-controller="Account">Add New User</a>
+    <a class="btn btn-primary" asp-action="ListUsers" asp-controller="Role">View Users</a>
+    <a class="btn btn-primary" asp-action="EditUsers" asp-controller="Role">Edit Users</a>
+    <a class="btn btn-primary" asp-action="DeleteUser" asp-controller="Role">Delete User</a>
+    <hr />
+    <a class="btn btn-primary" asp-action="ManageUserRoles" asp-controller="Role">Manage User Roles</a>
+    <a class="btn btn-primary" asp-action="EditUsersInRole" asp-controller="Role">Edit User In Roles</a>
+</div>
